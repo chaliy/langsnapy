@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "snuppy"
+version = "0.1.0"
+description = "Snapshot your LLMs"
+authors = ["Mykhailo Chalyi <mike@chaliy.name>"]
+readme = "README.md"
+
+packages = [
+    { include = "snuppy", from = "." },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dataclasses-json = "^0.6.3"
+pyyaml = "^6.0.1"
+markdown-it-py = {version = "^3.0.0", optional = true}
+
+
+[tool.poetry.extras]
+runtime-deps = ["markdown-it-py"]
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.8"
+pytest = "^7.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

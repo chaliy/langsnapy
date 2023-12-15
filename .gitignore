@@ -1,0 +1,22 @@
+# Random macOS stuff
+.DS_Store
+
+# Caches
+__pycache__/
+.ruff_cache
+.pytest_cache
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# dotenv
+.env
+
+# virtualenv
+.venv
+
+# VS Code
+.vscode/
+
+# Locals
+local*
