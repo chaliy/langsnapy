@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langsnapy"
-version = "0.0.1"
+version = "0.0.2"
 description = "Snapshot your LLMs, NLP and Chatbots"
 authors = ["Mykhailo Chalyi <mike@chaliy.name>"]
 readme = "README.md"
@@ -22,6 +22,8 @@ runtime-deps = ["markdown-it-py"]
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.8"
 pytest = "^7.4.3"
+ipykernel = "^6.27.1"
+jupyter = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core"]

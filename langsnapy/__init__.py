@@ -70,7 +70,8 @@ class Snapshot:
         return yaml.safe_dump(
             remove_none_values(self.to_dict()), 
             stream, 
-            default_flow_style=False
+            default_flow_style=False,
+            allow_unicode=True
         )
 
     @staticmethod
@@ -90,26 +91,43 @@ class CompareResults:
         self.snapshots = snapshots
 
     def _repr_html_(self):
-        from markdown_it import MarkdownIt
-
-        md = (
-            MarkdownIt('commonmark' , {'breaks':True,'html':True})
-            .enable('table')
+        from langsnapy._markdown import (
+            format_markdown_as_html,
+            format_dict_as_html
         )
 
-        all_runs = zip(*[s.runs for s in self.snapshots])
+        # NOTE: This assumes that all listed snapshots have the same runs in same order
+        # this behavior will change in the future 
 
         html = '<table style="text-align:left;">'
+
+        # Render meta
+        html += '<tr>'
+        for snapshot in self.snapshots:
+            html += f'''
+            <td style="text-align:left; vertical-align:top;">
+                {format_dict_as_html(snapshot.meta)}
+            </td>
+            '''
+        html += '</tr>'
+
+        # Render runs
+        num_snapshots = len(self.snapshots)
+        all_runs = zip(*[s.runs for s in self.snapshots])
         for runs in all_runs:
-            html += f'<tr><td style="text-align:left;"><b>Inquery: {runs[0].case.inquery}</b></td></tr>'
+            html += f'''<tr>
+                <td style="text-align:left;" colspan="{num_snapshots}">
+                    <b>Inquery: {runs[0].case.inquery}</b>
+                </td>
+            </tr>'''
 
             html += '<tr>'
 
             for run in runs:
                 html += f'''
-                <td style="text-align:left;">
-                    <div data-mime-type="text/markdown">
-                        {md.render(run.result.result)}
+                <td style="text-align:left; vertical-align:top;">
+                    <div data-mime-type="text/markdown" style="text-align:left; vertical-align:top;">
+                        {format_markdown_as_html(run.result.result)}
                     </div>
                 </td>
                 '''
@@ -167,16 +185,30 @@ class Project:
         with open(path, "r") as f:
             return Snapshot.from_file(f)
 
-    def _read_snapshots(self) -> list[Snapshot]:
+    def _read_snapshots(self) -> list[(str, Snapshot)]:
+        def get_run_id(path: Path) -> str:
+            return path.name.replace("-snapshot.yaml", "")
+
         return [
-            self._read_snapshot(path)
+            (get_run_id(path), self._read_snapshot(path))
             for path in self.snapshot_folder_path.glob("*.yaml")
         ]
 
-    def compare_last_two_runs(self) -> CompareResults:
-        runs = self._read_snapshots()
-        return CompareResults(runs[-2:])
+    def compare_last_two_snapshots(self) -> CompareResults:
+        snapshots = [snapshot for (_, snapshot) in self._read_snapshots()[-2:]]
+        return CompareResults(snapshots)
 
+    def compare_snapshots(self, snapshots: list[Snapshot]) -> CompareResults:
+        return CompareResults(snapshots)
+
+    def compare_snapshots_by_run_ids(self, run_ids: list[str]) -> CompareResults:
+        index = {run_id: snapshot for (run_id, snapshot) in self._read_snapshots()}
+        snapshots = [
+            index[run_id] 
+            for run_id in run_ids 
+            if run_id in index
+        ]
+        return CompareResults(snapshots)
 
 
 # %%
