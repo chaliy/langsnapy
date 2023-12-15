@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "langsnapy"
-version = "0.0.2"
+version = "0.0.3"
 description = "Snapshot your LLMs, NLP and Chatbots"
 authors = ["Mykhailo Chalyi <mike@chaliy.name>"]
 readme = "README.md"
