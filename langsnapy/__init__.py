@@ -19,10 +19,6 @@ def str_presenter(dumper, data):
 yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
 
 
-class MarkdownString(str):
-    pass
-
-
 @dataclass_json
 @dataclass
 class Case:

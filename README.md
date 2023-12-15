@@ -6,14 +6,18 @@ Idea behind this tool, is to maintain snapshots of what your model can answer.
 
 __How it works:__ You define a set of questions. This tool run this questions against your model and save the answers. Then you can run this questions again and compare the answers with the saved ones.
 
-### How to use
+## How to use
 
-```python
+```sh
+pip install langsnapy
 ```
+
+Check [examples](examples) folder.
 
 ### How to test
 
 ```sh
 poetry install -E runtime-deps --with dev
-poetry run pytest
+poetry run pytest .
+poetry run ruff .
 ```

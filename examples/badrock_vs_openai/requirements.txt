@@ -1,0 +1,8 @@
+langchain
+python-dotenv
+wikipedia
+openai
+tiktoken
+faiss-cpu
+boto3
+markdown-it-py
