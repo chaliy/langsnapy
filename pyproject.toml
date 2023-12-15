@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "snuppy"
-version = "0.1.0"
-description = "Snapshot your LLMs"
+name = "langsnapy"
+version = "0.0.1"
+description = "Snapshot your LLMs, NLP and Chatbots"
 authors = ["Mykhailo Chalyi <mike@chaliy.name>"]
 readme = "README.md"
 
 packages = [
-    { include = "snuppy", from = "." },
+    { include = "langsnapy", from = "." },
 ]
 
 [tool.poetry.dependencies]

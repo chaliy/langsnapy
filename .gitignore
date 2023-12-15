@@ -6,6 +6,9 @@ __pycache__/
 .ruff_cache
 .pytest_cache
 
+# Build
+dist
+
 # Jupyter Notebook
 .ipynb_checkpoints
 

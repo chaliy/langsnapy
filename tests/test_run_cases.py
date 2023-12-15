@@ -1,7 +1,7 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from snuppy import Project
+from langsnapy import Project
 
 FIXTURES_PATH = Path(__file__).parent / "fixtures"
 

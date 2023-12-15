@@ -1,4 +1,4 @@
-# Snuppy - Tool to snapshot your LLMs
+# Langsnapy - Tool to snapshot your LLMs, NLP Models and Chatbots
 
 _I am looking for better name_
 
@@ -9,8 +9,6 @@ __How it works:__ You define a set of questions. This tool run this questions ag
 ### How to use
 
 ```python
-from snuppy import Snuppy
-
 ```
 
 ### How to test
