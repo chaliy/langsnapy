@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from langsnapy import Project
+from langsnapy.project import Project
 
 FIXTURES_PATH = Path(__file__).parent / "fixtures"
 
