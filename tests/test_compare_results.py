@@ -1,4 +1,5 @@
-from langsnapy import CompareResults, Snapshot, Case, CaseRun, CaseRunResult
+from langsnapy import Snapshot, Case, CaseRun, CaseRunResult
+from langsnapy.compare_results import CompareResults
 
 def test_compare_results_html():
     runs = [
