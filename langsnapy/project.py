@@ -27,7 +27,10 @@ class Project:
         time_stamp = datetime.now()
 
         def run_case(case: Case) -> CaseRunResult:
-            return CaseRunResult.from_any(runner(case))
+            time_start = datetime.now()
+            run_result = CaseRunResult.from_any(runner(case))
+            run_result.add_meta("duration (sec)", int((datetime.now() - time_start).total_seconds()))
+            return run_result
 
         snapshot = Snapshot(
             runs=[CaseRun(c, run_case(c)) for c in cases]
