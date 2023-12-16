@@ -9,9 +9,8 @@ class CompareResults:
         self.snapshots = snapshots
 
     def _repr_html_(self):
-        from langsnapy._markdown import (
-            format_markdown_as_html,
-            format_dict_as_html
+        from langsnapy._output_format import (
+            format_dict_as_ol_html
         )
 
         # NOTE: This assumes that all listed snapshots have the same runs in same order
@@ -24,7 +23,7 @@ class CompareResults:
         for snapshot in self.snapshots:
             html += f'''
             <td style="text-align:left; vertical-align:top;">
-                {format_dict_as_html(snapshot.meta)}
+                {format_dict_as_ol_html(snapshot.meta)}
             </td>
             '''
         html += '</tr>'
@@ -44,9 +43,7 @@ class CompareResults:
             for run in runs:
                 html += f'''
                 <td style="text-align:left; vertical-align:top;">
-                    <div data-mime-type="text/markdown" style="text-align:left; vertical-align:top;">
-                        {format_markdown_as_html(run.result.result)}
-                    </div>
+                    {run.result._repr_html_()}
                 </td>
                 '''
 

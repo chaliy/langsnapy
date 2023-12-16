@@ -14,6 +14,29 @@ class CaseRunResult:
     result: str
     meta: dict[str, any] | None = None
 
+    def add_meta(self, key: str, value: any):
+        self.meta = self.meta or {}
+        self.meta[key] = value
+
+    def _repr_html_(self):
+        from langsnapy._output_format import (
+            format_markdown_as_html,
+            format_dict_as_div_html
+        )
+
+        html = ''
+
+        html += f'''
+            <div style="text-align:left; vertical-align:top;">
+                {format_markdown_as_html(self.result)}
+            </div>
+        '''
+
+        if self.meta:
+            html += format_dict_as_div_html(self.meta)
+
+        return html
+
     @staticmethod
     def from_any(result: str | CaseRunResult) -> CaseRunResult:
         if isinstance(result, CaseRunResult):
@@ -62,6 +85,36 @@ class Snapshot:
             default_flow_style=False,
             allow_unicode=True
         )
+
+    def _repr_html_(self):
+        from langsnapy._output_format import (
+            format_dict_as_ol_html
+        )
+
+        html = '<table style="text-align:left;">'
+
+        # Render meta
+        html += f'''<tr>
+            <td style="text-align:left; vertical-align:top;">
+                {format_dict_as_ol_html(self.meta)}
+            </td>'''
+
+        # Render runs
+        for run in self.runs:
+            html += f'''<tr>
+                <td style="text-align:left;">
+                    <b>Inquery: {run.case.inquery}</b>
+                </td>
+            </tr>'''
+
+            html += f'''<tr>
+                <td style="text-align:left; vertical-align:top;">
+                    {run.result._repr_html_()}
+                </td>
+            </tr>'''
+        html += '</table>'
+
+        return html
 
     @staticmethod
     def from_file(stream) -> Snapshot:

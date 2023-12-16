@@ -19,8 +19,15 @@ def format_dict_as_markdown(d: dict) -> str:
         f"- __{k}:__ {v}" for k, v in d.items()
     )
 
-def format_dict_as_html(d: dict) -> str:
+def format_dict_as_ol_html(d: dict) -> str:
     return format_markdown_as_html(format_dict_as_markdown(d))
+
+def format_dict_as_div_html(d: dict) -> str:
+    if not d:
+        return ""
+    return f'''<div>
+        {', '.join(f'<b>{key}:</b> {value}' for key, value in d.items())}
+    </div>'''
 
 def format_markdown_as_html(text: str) -> str:
      md = _get_markdown_it()
