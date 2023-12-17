@@ -70,8 +70,23 @@ class Project:
             for path in self.snapshot_folder_path.glob("*.yaml")
         ]
 
-    def compare_last_two_snapshots(self) -> CompareResults:
-        snapshots = [snapshot for (_, snapshot) in self._read_snapshots()[-2:]]
+    def compare_last_two_snapshots(self, prefix: str = None) -> CompareResults:
+        """
+        Compares the last two snapshots in the snapshot folder.
+
+        param prefix: If specified, only snapshots with the given prefix will be considered.
+        """
+
+        all_snapshots = [
+            snapshot 
+            for (_, snapshot) in self._read_snapshots() 
+            if prefix is None or _.startswith(prefix)
+        ]
+        all_snapshots.sort(key=lambda snapshot: snapshot.meta.get("time_stamp", datetime.min), reverse=True)
+        
+        snapshots = all_snapshots[:2]
+        snapshots.reverse()
+        
         return CompareResults(snapshots)
 
     def compare_snapshots(self, snapshots: list[Snapshot]) -> CompareResults:
