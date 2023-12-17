@@ -91,7 +91,7 @@ class Snapshot:
             format_dict_as_ol_html
         )
 
-        html = '<table style="text-align:left;">'
+        html = '<table style="text-align:left; width: 100%; table-layout: fixed">'
 
         # Render meta
         html += f'''<tr>
