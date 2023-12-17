@@ -16,7 +16,7 @@ class CompareResults:
         # NOTE: This assumes that all listed snapshots have the same runs in same order
         # this behavior will change in the future 
 
-        html = '<table style="text-align:left;">'
+        html = '<table style="text-align:left; width: 100%; table-layout: fixed">'
 
         # Render meta
         html += '<tr>'
