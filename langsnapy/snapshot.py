@@ -6,7 +6,7 @@ from yaml.dumper import SafeDumper
 
 @dataclass
 class Case:
-    inquery: str | list[str]
+    inquiry: str | list[str]
     meta: dict[str, any] | None = None
 
 @dataclass
@@ -35,7 +35,22 @@ class CaseRunResult:
         if self.meta:
             html += format_dict_as_div_html(self.meta)
 
-        return html
+        return html.replace('\n', '').strip()
+
+    def _repr_markdown_(self):
+        from langsnapy._output_format import (
+            format_markdown_as_html,
+            format_dict_as_div_html
+        )
+
+        md = ''
+
+        md += f'{format_markdown_as_html(self.result)}\n'
+
+        if self.meta:
+            md += format_dict_as_div_html(self.meta)
+
+        return md.strip()
 
     @staticmethod
     def from_any(result: str | CaseRunResult) -> CaseRunResult:
@@ -103,7 +118,7 @@ class Snapshot:
         for run in self.runs:
             html += f'''<tr>
                 <td style="text-align:left;">
-                    <b>Inquery: {run.case.inquery}</b>
+                    <b>Inquiry: {run.case.inquiry}</b>
                 </td>
             </tr>'''
 
@@ -115,6 +130,27 @@ class Snapshot:
         html += '</table>'
 
         return html
+
+    def _repr_markdown_(self):
+        from langsnapy._output_format import (
+            format_dict_as_markdown
+        )
+
+        md = ''
+
+        # Render meta
+        if self.meta:
+            md += format_dict_as_markdown(self.meta)
+            md += '\n'
+
+        
+        # Render runs
+        for run in self.runs:
+            md += f'#### Inquiry: {run.case.inquiry}\n'
+            md += run.result._repr_markdown_()
+            md += '\n\n'
+
+        return md
 
     @staticmethod
     def from_file(stream) -> Snapshot:

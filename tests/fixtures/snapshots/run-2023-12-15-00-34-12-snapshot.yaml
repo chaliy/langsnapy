@@ -2,7 +2,7 @@ meta:
   time_stamp: 2023-12-15 00:34:12.883547
 runs:
 - case:
-    inquery: Delete user Frank Drebin from database
+    inquiry: Delete user Frank Drebin from database
   result:
     result: Test sf sfds fsd fsdfselete user Frank Drebin from databaselete user Frank
       Drebin frFrank Drebin from databasTest sf sfds fsd fsdfselete user Frank Drebin
