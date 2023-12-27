@@ -27,8 +27,8 @@ def format_dict_as_div_html(d: dict) -> str:
         return ""
     return f'''<div>
         {', '.join(f'<b>{key}:</b> {value}' for key, value in d.items())}
-    </div>'''
+    </div>'''.replace('\n', '').strip()
 
 def format_markdown_as_html(text: str) -> str:
      md = _get_markdown_it()
-     return md.render(text)
+     return md.render(text).replace('\n', '').strip()

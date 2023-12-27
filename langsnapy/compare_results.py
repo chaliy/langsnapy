@@ -34,7 +34,7 @@ class CompareResults:
         for runs in all_runs:
             html += f'''<tr>
                 <td style="text-align:left;" colspan="{num_snapshots}">
-                    <b>Inquery: {runs[0].case.inquery}</b>
+                    <b>Inquiry: {runs[0].case.inquiry}</b>
                 </td>
             </tr>'''
 
@@ -51,3 +51,29 @@ class CompareResults:
         html += '</table>'
 
         return html
+
+
+    def _repr_markdown_(self):
+        from langsnapy._output_format import (
+            format_dict_as_ol_html
+        )
+
+        md = ''
+
+        # Render meta
+        md += '|' + '|'.join(' <!-- --> ' for s in self.snapshots) + '|\n'
+        md += '|' + '|'.join(' -------- ' for s in self.snapshots) + '|\n'
+        md += '|' + '|'.join(format_dict_as_ol_html(s.meta) for s in self.snapshots) + '|\n'
+        
+        # Render runs
+        num_snapshots = len(self.snapshots)
+        all_runs = zip(*[s.runs for s in self.snapshots])
+        for runs in all_runs:
+            md += f'#### Inquiry: {runs[0].case.inquiry}\n'
+
+            md += '|' + '|'.join(' <!-- --> ' for s in self.snapshots) + '|\n'
+            md += '|' + '|'.join(' -------- ' for s in self.snapshots) + '|\n'
+
+            md += '|' + '|'.join(r.result._repr_html_() for r in runs) + '|\n'
+
+        return md

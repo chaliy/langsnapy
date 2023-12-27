@@ -22,15 +22,15 @@ def runner_from_chain(chain: Chain) -> Callable[[Case], CaseRunResult]:
         )["answer"]
 
     def runner(case: Case) -> CaseRunResult:
-        if isinstance(case.inquery, str):
-            return CaseRunResult.from_any(_invoke(case.inquery, []))
+        if isinstance(case.inquiry, str):
+            return CaseRunResult.from_any(_invoke(case.inquiry, []))
 
-        if isinstance(case.inquery, list):
+        if isinstance(case.inquiry, list):
             from langchain_core.messages import AIMessage, HumanMessage
 
             history = []
 
-            for q in case.inquery:
+            for q in case.inquiry:
                 a = _invoke(q, history)
 
                 history.append(HumanMessage(content=q))
@@ -38,6 +38,6 @@ def runner_from_chain(chain: Chain) -> Callable[[Case], CaseRunResult]:
 
             return CaseRunResult.from_any(a)
 
-        raise ValueError(f"Unexpected case.inquery type: {type(case.inquery)}")
+        raise ValueError(f"Unexpected case.inquiry type: {type(case.inquiry)}")
 
     return runner
